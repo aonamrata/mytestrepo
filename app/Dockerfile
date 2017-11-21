@@ -13,4 +13,6 @@ EXPOSE 5000
 
 # RUN flask run
 
+RUN sh /usr/src/app/db/create_tables.sh
+
 CMD ["python", "/usr/src/app/handler.py"]
