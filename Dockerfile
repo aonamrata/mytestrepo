@@ -1,9 +1,13 @@
 FROM python:3.6
 
+RUN echo "Starting web.."
+RUN rm -frv /usr/src/app/*
 COPY * /usr/src/app/
 
+RUN chmod 777 /usr/src/app/create_tables.sh
 RUN ls -l /usr/src/app/
 
+RUN echo "Installing requirements.."
 RUN pip install -r /usr/src/app/requirements.txt
 
 EXPOSE 5000
@@ -13,6 +17,7 @@ EXPOSE 5000
 
 # RUN flask run
 
-RUN sh /usr/src/app/db/create_tables.sh
+# RUN echo "Creating tables.."
+# CMD ["/usr/src/app/create_tables.sh"]
 
 CMD ["python", "/usr/src/app/handler.py"]

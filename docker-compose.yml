@@ -1,18 +1,25 @@
 version: '2'
+volumes:
+ dbdata:
+
 services:
+ mysql:
+  image: mysql:5.7
+  container_name: mysql
+  volumes:
+    - dbdata:/var/lib/mysql
+  restart: always
+  environment:
+    - MYSQL_ROOT_PASSWORD=secret
+    - MYSQL_DATABASE=homestead
+    - MYSQL_USER=root
+    - MYSQL_PASSWORD=secret
+  ports:
+    - "33061:3306"
 
-  www:
-    build: app/.
-    ports:
-      - "80:80"
-    links:
-      - db
-    depends_on:
-      - db
-
-  db:
-    build: db/.
-    volumes:
-      - /var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: supersecure
+ web:
+  build: .
+  ports:
+    - "5000:5000"
+  depends_on:
+    - mysql
